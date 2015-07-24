@@ -452,7 +452,7 @@ static const VSFrameRef *VS_CC VapourSynthPluginGetFrame(int n, int activationRe
 		const size_t local_vert[2] = { V_BLOCK_X, V_BLOCK_Y };
 
 		//Copy chroma.
-		VSFrameRef *dst = vsapi->newVideoFrame(fi, d->image_dimensions[0], d->image_dimensions[1], NULL, core);
+		VSFrameRef *dst = vsapi->newVideoFrame(fi, d->image_dimensions[0], d->image_dimensions[1], src, core);
 		if (fi->colorFamily == cmYUV || fi->colorFamily == cmYCoCg) {
 			vs_bitblt(vsapi->getWritePtr(dst, 1), vsapi->getStride(dst, 1), vsapi->getReadPtr(src, 1), 
 				vsapi->getStride(src, 1), vsapi->getFrameWidth(src, 1) * fi->bytesPerSample, 
