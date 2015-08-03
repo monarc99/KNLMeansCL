@@ -29,6 +29,7 @@
 #include <cmath>
 #include <cstring>
 #include <fstream>
+#include <locale.h>
 
 #ifdef __APPLE__
 #include <OpenCL/opencl.h>

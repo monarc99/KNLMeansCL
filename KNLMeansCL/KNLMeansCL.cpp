@@ -828,6 +828,10 @@ static void VS_CC VapourSynthPluginCreate(const VSMap *in, VSMap *out,
 	// Creates and Build a program executable from the program source.
 	d.program = clCreateProgramWithSource(d.context, 1, &source_code, NULL, NULL);
 	char options[2048];
+	locale_t new_locale;
+	new_locale = newlocale(LC_NUMERIC_MASK, "C", NULL);
+	if (new_locale != NULL)
+		uselocale(new_locale);
 	if (channel == CL_FLOAT) {
 		snprintf(options, 2048, "-Werror \
             -D H_BLOCK_X=%i -D H_BLOCK_Y=%i -D V_BLOCK_X=%i -D V_BLOCK_Y=%i \
@@ -841,6 +845,8 @@ static void VS_CC VapourSynthPluginCreate(const VSMap *in, VSMap *out,
 			H_BLOCK_X, H_BLOCK_Y, V_BLOCK_X, V_BLOCK_Y,
 			0, d.s, d.wmode, d.d, 65025.0 / (d.h*d.h*(2 * d.s + 1) * (2 * d.s + 1)));
 	}
+	if (new_locale != NULL)
+		freelocale(new_locale);
 	ret = clBuildProgram(d.program, 1, &d.deviceID, options, NULL, NULL);
 	if (ret != CL_SUCCESS) {
 		size_t log_size;
